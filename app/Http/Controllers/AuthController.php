@@ -126,7 +126,8 @@ class AuthController extends Controller
      */
     public function callback(Request $request, LineService $lineService)
     {
-        $user = Socialite::driver('line')->user();
+        $user = Socialite::driver('line')->stateless()->user();
+
         $accessTokenResponseBody = $user->accessTokenResponseBody;
 
         if (!isset($accessTokenResponseBody['access_token'])) {
@@ -155,8 +156,8 @@ class AuthController extends Controller
         if (isset($query)) {
             $query->update([
                 'line_name' => $user_profile['displayName'],
-                'line_avatar_url' => $user_profile['pictureUrl'],
-                'avatar_url' => $user_profile['pictureUrl'],
+                //'line_avatar_url' => $user_profile['pictureUrl'],
+                //'avatar_url' => $user_profile['pictureUrl'],
                 'line_id' => $user_profile['userId']
             ]);
         }
@@ -226,7 +227,7 @@ class AuthController extends Controller
                 break;
         }
 
-        return $this->getBearerTokenByUser($auth, 1, false, $provider);
+        return $this->getBearerTokenByUser($auth, config('passport.proxy.client_id'), false, $provider);
     }
 
     /**

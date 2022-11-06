@@ -90,6 +90,10 @@ class ChatController extends Controller
 
         $student = Student::query()->find(Auth::id());
 
+        if(empty($student->teacher_id)){
+            $this->failed('你还没有所属老师，请联系管理员后台添加绑定老师', 404);
+        }
+
         $send_message = $service->sendMessage($student, $student->teacher_id, $message, Auth::id(), AUTH_PROVIDER_STUDENT);
 
         return $this->success($send_message);

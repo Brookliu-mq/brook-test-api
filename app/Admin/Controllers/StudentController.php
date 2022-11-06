@@ -46,6 +46,7 @@ class StudentController extends AdminController
         $grid->actions(function ($actions) {
             $actions->disableView();
         });
+        $grid->disableCreateButton();
         $grid->actions(function ($actions) {
             $actions->disableView();
             $actions->add(new AdminMessage);
